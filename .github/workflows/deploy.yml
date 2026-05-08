@@ -18,13 +18,13 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            mkdir -p ~/app
             cd ~/app
-            # Den Code holen (ersetze DEIN_USERNAME und DEIN_REPO)
-            if [ -d .git ]; then git pull; else git clone https://github.com/${{ github.repository }}.git .; fi
-            
-            # Passwort in die .env Datei schreiben
+            git pull origin main || (rm -rf * && git clone https://github.com{{ github.repository }}.git .)
             echo "MONGO_PASS=${{ secrets.MONGO_PASS }}" > .env
             
-            # Docker Compose neu starten
+            # Altes Zeug stoppen (auch wenn es klemmt)
+            docker compose down --remove-orphans || true
+            
+            # Neu starten
             docker compose up -d --build
+
