@@ -5,7 +5,7 @@ const app = express();
 // Wir bauen die URL dynamisch mit dem Passwort aus der Umgebungsvariable
 // Falls MONGO_PASS nicht da ist, nutzen wir 'password' als Sicherheitsnetz (Fallback)
 const dbPassword = process.env.MONGO_PASS || 'password';
-const dbUrl = `mongodb://admin:${dbPassword}@mongodb:27017/tasks?authSource=admin`;
+const dbUrl = `mongodb://admin:${process.env.MONGO_PASS}@mongodb:27017/tasks?authSource=admin`;
 
 mongoose.connect(dbUrl)
   .then(() => console.log('✅ MongoDB verbunden'))
