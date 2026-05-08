@@ -21,7 +21,7 @@ jobs:
             mkdir -p ~/app
             cd ~/app
             # Den Code holen (ersetze DEIN_USERNAME und DEIN_REPO)
-            if [ -d .git ]; then git pull; else git clone https://github.com/shahzadnabil98-ship-it/Neues-Projekt.git/${{ github.repository }}.git .; fi
+            if [ -d .git ]; then git pull; else git clone https://github.com/${{ github.repository }}.git .; fi
             
             # Passwort in die .env Datei schreiben
             echo "MONGO_PASS=${{ secrets.MONGO_PASS }}" > .env
