@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  webapp:
+    build: .
+    ports: ["80:3000"]
+    environment:
+      - MONGO_URL=mongodb://admin:${MONGO_PASS}@mongodb:27017/tasks?authSource=admin
+    depends_on: [mongodb]
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+    volumes: ["mongo-data:/data/db"]
+volumes:
+  mongo-data:
+

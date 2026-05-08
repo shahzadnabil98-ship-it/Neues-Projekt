@@ -1,0 +1,30 @@
+name: Deploy V2
+on:
+  push:
+    branches: 
+     - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to AWS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p ~/app
+            cd ~/app
+            # Den Code holen (ersetze DEIN_USERNAME und DEIN_REPO)
+            if [ -d .git ]; then git pull; else git clone https://github.com/shahzadnabil98-ship-it/Neues-Projekt.git/${{ github.repository }}.git .; fi
+            
+            # Passwort in die .env Datei schreiben
+            echo "MONGO_PASS=${{ secrets.MONGO_PASS }}" > .env
+            
+            # Docker Compose neu starten
+            docker compose up -d --build
