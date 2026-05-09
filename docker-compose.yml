@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   webapp:
+    container_name: webapp  # <--- Das ist die wichtige Zeile!
     build: .
-    # WICHTIG: Port 80 wird hier entfernt, da Nginx jetzt übernimmt!
     expose:
       - "3000"
     environment:
@@ -13,6 +13,7 @@ services:
       - mongodb
     networks:
       - backend
+
 
   mongodb:
     image: mongo:4.4
